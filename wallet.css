@@ -1,0 +1,93 @@
+background:#627eea;
+}
+
+.bnb{
+background:#f3ba2f;
+color:black;
+}
+
+.usdt{
+background:#26a17b;
+}
+
+.pi{
+background:#7b3fe4;
+}
+
+/* MARKET */
+
+.market-box,
+.history-box,
+.settings-box{
+background:#161d2e;
+padding:20px;
+border-radius:18px;
+margin-top:15px;
+}
+
+/* SWAP */
+
+#swapPage{
+padding-top:10px;
+}
+
+#swapPage h2{
+margin-bottom:15px;
+}
+
+#swapPage select,
+#swapPage input{
+width:100%;
+padding:14px;
+margin-bottom:12px;
+border:none;
+border-radius:12px;
+background:#161d2e;
+color:white;
+}
+
+#swapResult{
+background:#161d2e;
+padding:15px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.swap-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#3375ff;
+color:white;
+font-weight:bold;
+}
+
+/* NAVIGATION */
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#111827;
+border-top:1px solid #1f2937;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+}
+
+.nav-btn{
+background:none;
+border:none;
+color:#9ca3af;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:4px;
+font-size:12px;
+}
+
+.nav-btn.active{
+color:#3375ff;
+}
