@@ -1,1 +1,0 @@
-# socoetrap200.github.io
