@@ -1,29 +1,97 @@
-+21
-Lines changed: 21 additions & 0 deletions
-Original file line number	Diff line number	Diff line change
-@@ -520,6 +520,27 @@ <h2>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOCOETRAP Wallet</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="wallet.css">
+
+  <meta name="theme-color" content="#0A84FF">
+</head>
+
+<body>
+
+<header class="header">
+    <h1>SOCOETRAP Wallet</h1>
+    <p>Votre portefeuille numérique</p>
+</header>
+
+<section class="balance-card">
+
+    <h2>Solde Total</h2>
+
+    <h1 id="balance">$0.00</h1>
+
+    <button id="refreshBtn">
+        Actualiser
+    </button>
+
+</section>
+
+<section class="actions">
+
+    <button class="action-btn">
+        📤
+        <span>Envoyer</span>
+    </button>
+
+    <button class="action-btn">
+        📥
+        <span>Recevoir</span>
+    </button>
+
+    <button class="action-btn">
+        🛒
+        <span>Acheter</span>
+    </button>
+
+    <button class="action-btn">
+        💱
+        <span>Vendre</span>
+    </button>
+
+</section>
+
+<section class="coins">
+
+<h2>Mes Cryptomonnaies</h2>
+
+<div id="coin-list">
+
 </div>
 
-<script src="wallet.js"></script>
-...
+</section>
+
 <nav class="bottom-nav">
-    ...
+
+<button>🏠<br>Accueil</button>
+
+<button>📈<br>Marché</button>
+
+<button>💼<br>Wallet</button>
+
+<button>⚙️<br>Paramètres</button>
+
 </nav>
 
+<script src="wallet.js"></script>
+
 <script>
+
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("./service-worker.js")
-      .then(() => {
-        console.log("Service Worker installé");
-      })
-      .catch((error) => {
-        console.log("Erreur Service Worker :", error);
-      });
-  });
+
+window.addEventListener("load", () => {
+
+navigator.serviceWorker.register("./service-worker.js");
+
+});
+
 }
+
 </script>
+
 </body>
 </html>
 
