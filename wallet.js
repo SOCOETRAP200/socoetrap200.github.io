@@ -55,3 +55,13 @@ console.log(error);
 }
 
 loadPrices();
+
+// Actualiser automatiquement toutes les 30 secondes
+setInterval(() => {
+    loadPrices();
+}, 30000)
+const lastUpdate = document.getElementById("lastUpdate");
+
+lastUpdate.textContent =
+"Dernière mise à jour : " +
+new Date().toLocaleTimeString();
