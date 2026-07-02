@@ -586,3 +586,20 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loginWithPi() {
 ...
 }
+async function loginWithPi() {
+    try {
+        const auth = await Pi.authenticate(
+            ["username", "payments"],
+            function(payment) {
+                console.log("Paiement :", payment);
+            }
+        );
+
+        alert("Bienvenue " + auth.user.username);
+        console.log(auth);
+
+    } catch (error) {
+        console.error(error);
+        alert("Connexion annulée ou impossible.");
+    }
+}
