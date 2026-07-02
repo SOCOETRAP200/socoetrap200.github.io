@@ -1,3 +1,7 @@
+Pi.init({
+  version: "2.0",
+  sandbox: true
+});
 // ===============================
 // SOCOETRAP Wallet - wallet.js 
 // ===============================
@@ -579,3 +583,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (swapBtn) swapBtn.onclick = swapCrypto;
 
 });
+async function loginWithPi() {
+...
+}
