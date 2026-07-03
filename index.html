@@ -108,3 +108,404 @@ Se connecter avec Pi
 <button id="buyBtn" class="action-btn">Acheter</button>
 <button id="sellBtn" class="action-btn">Vendre</button>
 <button id="swapBtn" class="action-btn">Swap</button>
+<!-- ========================= -->
+<!-- PI NETWORK -->
+
+<section class="coins">
+
+    <h2>
+
+        Pi Network
+
+    </h2>
+
+    <div id="coin-list">
+
+        <div class="coin-card">
+
+            <img
+                src="assets/logo.png"
+                class="coin-logo"
+                alt="Pi">
+
+            <div class="coin-info">
+
+                <h3>
+
+                    Pi Network
+
+                </h3>
+
+                <p>
+
+                    PI
+
+                </p>
+
+            </div>
+
+            <div class="coin-balance">
+
+                <h3 id="coinBalance">
+
+                    0.00 PI
+
+                </h3>
+
+                <p id="coinValue">
+
+                    ≈ $0.00
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- ADRESSE -->
+
+<section class="wallet-address-card">
+
+    <h2>
+
+        Adresse Pi
+
+    </h2>
+
+    <div class="address-box">
+
+        <input
+            id="walletAddress"
+            type="text"
+            value="GPI_TEST_ADDRESS"
+            readonly>
+
+        <button id="copyAddressBtn">
+
+            Copier
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- QR CODE -->
+
+<section class="qr-section">
+
+    <h2>
+
+        QR Code
+
+    </h2>
+
+    <div class="qr-box">
+
+        <img
+            id="walletQR"
+            src="assets/qr.png"
+            alt="QR Code">
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
+<!-- GRAPHIQUE -->
+
+<section class="chart-section">
+
+    <h2>
+
+        Evolution du prix PI
+
+    </h2>
+
+    <canvas
+        id="priceChart"
+        height="220">
+
+    </canvas>
+
+</section>
+
+<!-- ========================= -->
+<!-- HISTORIQUE -->
+
+<section class="history-section">
+
+    <h2>
+
+        Historique
+
+    </h2>
+
+    <div id="transactionList">
+
+        <div class="transaction">
+
+            <div>
+
+                <strong>
+
+                    Aucune transaction
+
+                </strong>
+
+                <p>
+
+                    Wallet Test
+
+                </p>
+
+            </div>
+
+            <span>
+
+                --
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================= -->
+<!-- MODAL ENVOYER -->
+
+<div class="modal" id="sendModal">
+
+    <div class="modal-content">
+
+        <h2>Envoyer PI</h2>
+
+        <input
+            id="recipientAddress"
+            type="text"
+            placeholder="Adresse Pi du destinataire">
+
+        <input
+            id="sendAmount"
+            type="number"
+            placeholder="Montant PI">
+
+        <button id="confirmSend">
+
+            Envoyer
+
+        </button>
+
+        <button class="closeModal">
+
+            Annuler
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- MODAL RECEVOIR -->
+
+<div class="modal" id="receiveModal">
+
+    <div class="modal-content">
+
+        <h2>Recevoir PI</h2>
+
+        <img
+            src="assets/qr.png"
+            class="receiveQR"
+            alt="QR">
+
+        <input
+            id="receiveAddress"
+            type="text"
+            value="GPI_TEST_ADDRESS"
+            readonly>
+
+        <button id="copyReceiveAddress">
+
+            Copier l'adresse
+
+        </button>
+
+        <button class="closeModal">
+
+            Fermer
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- MODAL ACHETER -->
+
+<div class="modal" id="buyModal">
+
+    <div class="modal-content">
+
+        <h2>Acheter PI (Test)</h2>
+
+        <input
+            id="buyAmount"
+            type="number"
+            placeholder="Montant">
+
+        <button id="confirmBuy">
+
+            Continuer
+
+        </button>
+
+        <button class="closeModal">
+
+            Annuler
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- MODAL VENDRE -->
+
+<div class="modal" id="sellModal">
+
+    <div class="modal-content">
+
+        <h2>Vendre PI (Test)</h2>
+
+        <input
+            id="sellAmount"
+            type="number"
+            placeholder="Montant">
+
+        <button id="confirmSell">
+
+            Continuer
+
+        </button>
+
+        <button class="closeModal">
+
+            Annuler
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- MODAL SWAP -->
+
+<div class="modal" id="swapModal">
+
+    <div class="modal-content">
+
+        <h2>Swap PI</h2>
+
+        <p>
+
+            Fonction disponible prochainement.
+
+        </p>
+
+        <button class="closeModal">
+
+            Fermer
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- NAVIGATION -->
+
+<nav class="bottom-nav">
+
+    <button class="nav-btn active">
+
+        🏠
+
+        <span>Accueil</span>
+
+    </button>
+
+    <button class="nav-btn">
+
+        📊
+
+        <span>Marché</span>
+
+    </button>
+
+    <button class="nav-btn">
+
+        💼
+
+        <span>Wallet</span>
+
+    </button>
+
+    <button class="nav-btn">
+
+        ⚙️
+
+        <span>Paramètres</span>
+
+    </button>
+
+</nav>
+
+<!-- ========================= -->
+<!-- JAVASCRIPT -->
+
+<script src="wallet.js"></script>
+
+<!-- ========================= -->
+<!-- SERVICE WORKER -->
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+window.addEventListener("load", () => {
+
+navigator.serviceWorker
+.register("./service-worker.js")
+.then(() => {
+
+console.log("Service Worker installé");
+
+})
+.catch((err) => {
+
+console.log(err);
+
+});
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
