@@ -1,485 +1,220 @@
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
-<script src="wallet.js"></script>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOCOETRAP Wallet</title>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="wallet.css">
+<meta charset="UTF-8">
 
-  <meta name="theme-color" content="#0A84FF">
-</head>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<body>
+<title>SOCOETRAP Wallet</title>
+
+<meta name="theme-color" content="#0A84FF">
+
+<meta name="description"
+content="SOCOETRAP Wallet - Pi Network Testnet">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="assets/icon-192.png">
+
+<link rel="apple-touch-icon"
+href="assets/icon-192.png">
+
+<link rel="stylesheet"
+href="wallet.css">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- SDK officiel Pi Network -->
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
 <header class="header">
-    <h1>SOCOETRAP Wallet</h1>
-    <p>Votre portefeuille numérique</p>
-</header>
 
-<section class="balance-card">
+<div class="logo">
 
-    <h2>Solde Total</h2>
+<img
+src="assets/icon-192.png"
+alt="SOCOETRAP Wallet"
+class="logo-img">
 
-    <h1 id="balance">$0.00</h1>
-<
-    
-        Actualiser
-    </button>
+<div>
+
+<h1>SOCOETRAP Wallet</h1>
+
+<p>Pi Network Testnet</p>
+
+</div>
+
+</div>
+
+<button id="piLoginBtn"
+class="login-btn">
+
+Connexion Pi
+
+</button>
+
+<main class="container">
+  <section class="balance-card">
+
+<h3>Solde Pi</h3>
+
+<h1 id="balance">0.000000 π</h1>
+
+<p id="lastUpdate">
+Dernière mise à jour : --
+</p>
+
+<button id="refreshBtn" class="primary-btn">
+Actualiser
+</button>
 
 </section>
 
 <section class="actions">
 
-    <button class="action-btn">
-        📤
-        <span>Envoyer</span>
-    </button>
-
-    <button class="action-btn">
-        📥
-        <span>Recevoir</span>
-    </button>
-
-    <button class="action-btn">
-        🛒
-        <span>Acheter</span>
-    </button>
-
-    <button class="action-btn">
-        💱
-        <span>Vendre</span>
-    </button>
-
-</section>
-
-<section class="coins">
-
-<h2>Mes Cryptomonnaies</h2>
-
-<div id="coin-list">
-
-</div>
-
-</section>
-
-<nav class="bottom-nav">
-
-<button>🏠<br>Accueil</button>
-
-<button>📈<br>Marché</button>
-
-<button>💼<br>Wallet</button>
-
-<button>⚙️<br>Paramètres</button>
-
-</nav>
-
-<script src="wallet.js"></script>
-
-<script>
-
-if ("serviceWorker" in navigator) {
-
-window.addEventListener("load", () => {
-
-navigator.serviceWorker.register("./service-worker.js");
-
-});
-
-}
-button id="piLoginBtn" onclick="loginWithPi()">
-Se connecter avec Pi
+<button id="sendBtn" class="action-btn">
+📤
+<span>Envoyer</span>
 </button>
-</script>
-  
 
-</body>
-</html>
-<p id="lastUpdate">Dernière mise à jour : --</p>
-<div class="chart-section">
-    <canvas id="priceChart" height="250"></canvas>
+<button id="receiveBtn" class="action-btn">
+📥
+<span>Recevoir</span>
+</button>
+
+<button id="buyBtn" class="action-btn">
+💳
+<span>Acheter</span>
+</button>
+
+<button id="sellBtn" class="action-btn">
+💵
+<span>Vendre</span>
+</button>
+
+<button id="swapBtn" class="action-btn">
+🔄
+<span>Swap</span>
+</button>
+
+</section>
+
+<section class="payment-section">
+
+<h2>Paiement Pi Testnet</h2>
+
+<input
+type="number"
+id="paymentAmount"
+placeholder="Montant en Pi">
+
+<input
+type="text"
+id="paymentMemo"
+placeholder="Description">
+
+<button
+id="payBtn"
+class="primary-btn">
+
+Payer avec Pi
+
+</button>
+
+</section>
+
+<section class="market-section">
+
+<h2>Pi Network</h2>
+
+<div id="marketList">
+
+<div class="coin">
+
+<div class="coin-left">
+
+<img
+src="assets/icon-192.png"
+alt="Pi">
+
+<div>
+
+<div class="coin-name">
+
+Pi Network
+
 </div>
-<button id="sendBtn" class="action-btn">Envoyer</button>
-<button id="receiveBtn" class="action-btn">Recevoir</button>
-<button id="buyBtn" class="action-btn">Acheter</button>
-<button id="sellBtn" class="action-btn">Vendre</button>
-<button id="swapBtn" class="action-btn">Swap</button>
-<!-- ========================= -->
-<!-- PI NETWORK -->
 
-<section class="coins">
+<div class="coin-symbol">
 
-    <h2>
+PI
 
-        Pi Network
+</div>
 
-    </h2>
+</div>
 
-    <div id="coin-list">
+</div>
 
-        <div class="coin-card">
+<div style="text-align:right">
 
-            <img
-                src="assets/logo.png"
-                class="coin-logo"
-                alt="Pi">
+<div class="coin-price">
 
-            <div class="coin-info">
+Chargement...
 
-                <h3>
+</div>
 
-                    Pi Network
+</div>
 
-                </h3>
+</div>
 
-                <p>
-
-                    PI
-
-                </p>
-
-            </div>
-
-            <div class="coin-balance">
-
-                <h3 id="coinBalance">
-
-                    0.00 PI
-
-                </h3>
-
-                <p id="coinValue">
-
-                    ≈ $0.00
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
-
-<!-- ========================= -->
-<!-- ADRESSE -->
-
-<section class="wallet-address-card">
-
-    <h2>
-
-        Adresse Pi
-
-    </h2>
-
-    <div class="address-box">
-
-        <input
-            id="walletAddress"
-            type="text"
-            value="GPI_TEST_ADDRESS"
-            readonly>
-
-        <button id="copyAddressBtn">
-
-            Copier
-
-        </button>
-
-    </div>
-
-</section>
-
-<!-- ========================= -->
-<!-- QR CODE -->
-
-<section class="qr-section">
-
-    <h2>
-
-        QR Code
-
-    </h2>
-
-    <div class="qr-box">
-
-        <img
-            id="walletQR"
-            src="assets/qr.png"
-            alt="QR Code">
-
-    </div>
-
-</section>
-
-<!-- ========================= -->
-<!-- GRAPHIQUE -->
 
 <section class="chart-section">
 
-    <h2>
+<canvas
+id="priceChart"
+height="260">
 
-        Evolution du prix PI
-
-    </h2>
-
-    <canvas
-        id="priceChart"
-        height="220">
-
-    </canvas>
+</canvas>
 
 </section>
 
-<!-- ========================= -->
-<!-- HISTORIQUE -->
-
-<section class="history-section">
-
-    <h2>
-
-        Historique
-
-    </h2>
-
-    <div id="transactionList">
-
-        <div class="transaction">
-
-            <div>
-
-                <strong>
-
-                    Aucune transaction
-
-                </strong>
-
-                <p>
-
-                    Wallet Test
-
-                </p>
-
-            </div>
-
-            <span>
-
-                --
-
-            </span>
-
-        </div>
-
-    </div>
-
-</section>
-<!-- ========================= -->
-<!-- MODAL ENVOYER -->
-
-<div class="modal" id="sendModal">
-
-    <div class="modal-content">
-
-        <h2>Envoyer PI</h2>
-
-        <input
-            id="recipientAddress"
-            type="text"
-            placeholder="Adresse Pi du destinataire">
-
-        <input
-            id="sendAmount"
-            type="number"
-            placeholder="Montant PI">
-
-        <button id="confirmSend">
-
-            Envoyer
-
-        </button>
-
-        <button class="closeModal">
-
-            Annuler
-
-        </button>
-
-    </div>
-
-</div>
-
-<!-- ========================= -->
-<!-- MODAL RECEVOIR -->
-
-<div class="modal" id="receiveModal">
-
-    <div class="modal-content">
-
-        <h2>Recevoir PI</h2>
-
-        <img
-            src="assets/qr.png"
-            class="receiveQR"
-            alt="QR">
-
-        <input
-            id="receiveAddress"
-            type="text"
-            value="GPI_TEST_ADDRESS"
-            readonly>
-
-        <button id="copyReceiveAddress">
-
-            Copier l'adresse
-
-        </button>
-
-        <button class="closeModal">
-
-            Fermer
-
-        </button>
-
-    </div>
-
-</div>
-
-<!-- ========================= -->
-<!-- MODAL ACHETER -->
-
-<div class="modal" id="buyModal">
-
-    <div class="modal-content">
-
-        <h2>Acheter PI (Test)</h2>
-
-        <input
-            id="buyAmount"
-            type="number"
-            placeholder="Montant">
-
-        <button id="confirmBuy">
-
-            Continuer
-
-        </button>
-
-        <button class="closeModal">
-
-            Annuler
-
-        </button>
-
-    </div>
-
-</div>
-
-<!-- ========================= -->
-<!-- MODAL VENDRE -->
-
-<div class="modal" id="sellModal">
-
-    <div class="modal-content">
-
-        <h2>Vendre PI (Test)</h2>
-
-        <input
-            id="sellAmount"
-            type="number"
-            placeholder="Montant">
-
-        <button id="confirmSell">
-
-            Continuer
-
-        </button>
-
-        <button class="closeModal">
-
-            Annuler
-
-        </button>
-
-    </div>
-
-</div>
-
-<!-- ========================= -->
-<!-- MODAL SWAP -->
-
-<div class="modal" id="swapModal">
-
-    <div class="modal-content">
-
-        <h2>Swap PI</h2>
-
-        <p>
-
-            Fonction disponible prochainement.
-
-        </p>
-
-        <button class="closeModal">
-
-            Fermer
-
-        </button>
-
-    </div>
-
-</div>
-
-<!-- ========================= -->
-<!-- NAVIGATION -->
-
-<nav class="bottom-nav">
-
-    <button class="nav-btn active">
-
-        🏠
-
-        <span>Accueil</span>
-
-    </button>
-
-    <button class="nav-btn">
-
-        📊
-
-        <span>Marché</span>
-
-    </button>
-
-    <button class="nav-btn">
-
-        💼
-
-        <span>Wallet</span>
-
-    </button>
-
-    <button class="nav-btn">
-
-        ⚙️
-
-        <span>Paramètres</span>
-
-    </button>
-
-</nav>
-
-<!-- ========================= -->
-<!-- JAVASCRIPT -->
+</main>
+<footer class="bottom-nav">
+
+<button>
+🏠
+<br>
+Accueil
+</button>
+
+<button>
+📊
+<br>
+Marché
+</button>
+
+<button>
+💼
+<br>
+Wallet
+</button>
+
+<button>
+⚙️
+<br>
+Paramètres
+</button>
+
+</footer>
 
 <script src="wallet.js"></script>
-
-<!-- ========================= -->
-<!-- SERVICE WORKER -->
 
 <script>
 
@@ -490,19 +225,21 @@ window.addEventListener("load", () => {
 navigator.serviceWorker
 .register("./service-worker.js")
 .then(() => {
-
 console.log("Service Worker installé");
-
 })
 .catch((err) => {
-
-console.log(err);
-
+console.log("Erreur Service Worker :", err);
 });
 
 });
 
 }
+
+// Initialisation du SDK Pi (Testnet)
+Pi.init({
+  version: "2.0",
+  sandbox: true
+});
 
 </script>
 
