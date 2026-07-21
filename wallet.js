@@ -1,334 +1,216 @@
-// ===============================
-// SOCO Wallet - wallet.js (Partie 1)
-// ===============================
+// =========================================
+// SOCOETRAP Wallet
+// Pi Network Testnet
+// wallet.js - Partie 1
+// =========================================
 
-const API =
-"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,binancecoin,tether&price_change_percentage=24h";
+const BACKEND_URL = "https://socoetrap-pi-backend-1.onrender.com";
 
-let marketData = [];
+let currentUser = null;
+let accessToken = null;
+let walletBalance = 0;
 
-const coinLogos = {
-    bitcoin: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-    ethereum: "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
-    binancecoin: "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png",
-    tether: "https://assets.coingecko.com/coins/images/325/large/Tether.png"
-};
-
-async function loadMarket() {
+// Initialisation du SDK Pi
+async function initPi() {
 
     try {
 
-        const response = await fetch(API);
-
-        const data = await response.json();
-
-        marketData = data;
-
-        displayCoins();
-
-        updateBalance();
-
-        updateLastRefresh();
-
-    } catch (e) {
-
-        console.log(e);
-
-        document.getElementById("marketList").innerHTML =
-        "<p>Impossible de charger les données.</p>";
-
-    }
-
-}
-
-function displayCoins() {
-
-    const list = document.getElementById("marketList");
-
-    list.innerHTML = "";
-
-    marketData.forEach(coin => {
-
-        const color =
-        coin.price_change_percentage_24h >= 0
-        ? "#00ff88"
-        : "#ff4b4b";
-
-        const sign =
-        coin.price_change_percentage_24h >= 0
-        ? "+"
-        : "";
-
-        list.innerHTML += `
-
-<div class="coin" onclick="openCoin('${coin.id}')">
-
-<div class="coin-left">
-
-<img src="${coinLogos[coin.id]}">
-
-<div>
-
-<div class="coin-name">
-${coin.name}
-</div>
-
-<div class="coin-symbol">
-${coin.symbol.toUpperCase()}
-</div>
-
-</div>
-
-</div>
-
-<div style="text-align:right">
-
-<div class="coin-price">
-$${coin.current_price.toLocaleString()}
-</div>
-
-<div style="color:${color}">
-
-${sign}${coin.price_change_percentage_24h.toFixed(2)}%
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-    });
-
-}
-
-function updateBalance() {
-
-    let total = 12584.92;
-
-    document.getElementById("balance").innerHTML =
-    "$" + total.toLocaleString();
-
-}
-
-function updateLastRefresh() {
-
-    const now = new Date();
-
-    document.getElementById("lastUpdate").innerHTML =
-    "Dernière mise à jour : " +
-    now.toLocaleTimeString();
-
-}
-
-document
-.getElementById("refreshBtn")
-.addEventListener("click", loadMarket);
-
-loadMarket();
-
-setInterval(loadMarket,30000);
-
-let chart = null;
-
-async function openCoin(coinId) {
-
-    try {
-
-        const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`
-        );
-
-        const data = await response.json();
-
-        const labels = [];
-        const prices = [];
-
-        data.prices.forEach(item => {
-
-            const date = new Date(item[0]);
-
-            labels.push(
-                date.getDate() + "/" +
-                (date.getMonth() + 1)
-            );
-
-            prices.push(item[1]);
-
+        Pi.init({
+            version: "2.0",
+            sandbox: true
         });
 
-        drawChart(labels, prices, coinId);
+        console.log("SDK Pi initialisé");
 
     } catch (error) {
 
         console.error(error);
 
-        alert("Impossible de charger le graphique.");
-
     }
 
 }
 
-function drawChart(labels, prices, coinId) {
+// Connexion Pi
+async function loginWithPi() {
 
-    const canvas = document.getElementById("priceChart");
+    try {
 
-    if (!canvas) return;
+        const scopes = [
+            "username",
+            "payments",
+            "wallet_address"
+        ];
 
-    const ctx = canvas.getContext("2d");
+        const auth = await Pi.authenticate(scopes, function(payment){});
 
-    if (chart !== null) {
-        chart.destroy();
+        currentUser = auth.user;
+
+        accessToken = auth.accessToken;
+
+        document.getElementById("piLoginBtn").innerHTML =
+            "✅ " + currentUser.username;
+
+        console.log(auth);
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Connexion Pi annulée.");
+
     }
-
-    chart = new Chart(ctx, {
-
-        type: "line",
-
-        data: {
-
-            labels: labels,
-
-            datasets: [
-
-                {
-
-                    label: coinId.toUpperCase(),
-
-                    data: prices,
-
-                    borderWidth: 3,
-
-                    fill: false,
-
-                    tension: 0.35
-
-                }
-
-            ]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            maintainAspectRatio: false,
-
-            plugins: {
-
-                legend: {
-
-                    display: true
-
-                }
-
-            },
-
-            scales: {
-
-                x: {
-
-                    display: true
-
-                },
-
-                y: {
-
-                    display: true
-
-                }
-
-            }
-
-        }
-
-    });
-
-}
-
-// Charger automatiquement le graphique du Bitcoin
-setTimeout(() => {
-    openCoin("bitcoin");
-}, 1500);
-//
-
-function sendCrypto() {
-
-    const address = prompt("Adresse du destinataire :");
-
-    if (!address) return;
-
-    const amount = prompt("Montant à envoyer :");
-
-    if (!amount) return;
-
-    alert(
-        "Prévisualisation\n\n" +
-        "Adresse : " + address +
-        "\nMontant : " + amount +
-        "\n\nCette fonctionnalité sera reliée à une blockchain dans une future version."
-    );
-
-}
-
-function receiveCrypto() {
-
-    const walletAddress =
-        "0x1234ABCD5678EFGH9012IJKL3456MNOP7890QRST";
-
-    navigator.clipboard.writeText(walletAddress)
-        .then(() => {
-            alert(
-                "Adresse copiée :\n\n" + walletAddress
-            );
-        })
-        .catch(() => {
-            alert(walletAddress);
-        });
-
-}
-
-function buyCrypto() {
-
-    alert(
-        "Fonction Acheter.\n\n" +
-        "À connecter ultérieurement à un fournisseur de paiement."
-    );
-
-}
-
-function sellCrypto() {
-
-    alert(
-        "Fonction Vendre.\n\n" +
-        "À connecter ultérieurement à un fournisseur d'échange."
-    );
-
-}
-
-function swapCrypto() {
-
-    alert(
-        "Fonction Swap.\n\n" +
-        "À connecter ultérieurement à un protocole d'échange décentralisé."
-    );
 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const sendBtn = document.getElementById("sendBtn");
-    const receiveBtn = document.getElementById("receiveBtn");
-    const buyBtn = document.getElementById("buyBtn");
-    const sellBtn = document.getElementById("sellBtn");
-    const swapBtn = document.getElementById("swapBtn");
+    initPi();
 
-    if (sendBtn) sendBtn.onclick = sendCrypto;
-    if (receiveBtn) receiveBtn.onclick = receiveCrypto;
-    if (buyBtn) buyBtn.onclick = buyCrypto;
-    if (sellBtn) sellBtn.onclick = sellCrypto;
-    if (swapBtn) swapBtn.onclick = swapCrypto;
+    const loginBtn =
+        document.getElementById("piLoginBtn");
+
+    if(loginBtn){
+
+        loginBtn.onclick = loginWithPi;
+
+    }
 
 });
+// =========================================
+// Paiement Pi Testnet
+// Partie 2
+// =========================================
+
+async function payWithPi() {
+
+    if (!currentUser) {
+
+        alert("Veuillez d'abord vous connecter avec Pi.");
+
+        return;
+
+    }
+
+    const amount =
+        parseFloat(document.getElementById("paymentAmount").value);
+
+    const memo =
+        document.getElementById("paymentMemo").value;
+
+    if (!amount || amount <= 0) {
+
+        alert("Veuillez saisir un montant valide.");
+
+        return;
+
+    }
+
+    if (memo.trim() === "") {
+
+        alert("Veuillez saisir une description.");
+
+        return;
+
+    }
+
+    try {
+
+        Pi.createPayment(
+
+            {
+                amount: amount,
+                memo: memo,
+                metadata: {
+                    app: "SOCOETRAP Wallet",
+                    network: "Pi Testnet"
+                }
+            },
+
+            {
+
+                onReadyForServerApproval: async function(paymentId) {
+
+                    console.log("Paiement prêt :", paymentId);
+
+                    try {
+
+                        await fetch(
+                            BACKEND_URL + "/approve",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    paymentId
+                                    // =========================================
+// SOCOETRAP Wallet
+// Wallet.js - Partie 3
+// =========================================
+
+// Solde de démonstration (Testnet)
+function updateBalance() {
+
+    walletBalance = 1000.000000;
+
+    const balance = document.getElementById("balance");
+
+    if (balance) {
+
+        balance.innerHTML =
+            walletBalance.toFixed(6) + " π";
+
+    }
+
+    const lastUpdate =
+        document.getElementById("lastUpdate");
+
+    if (lastUpdate) {
+
+        lastUpdate.innerHTML =
+            "Dernière mise à jour : " +
+            new Date().toLocaleTimeString();
+
+    }
+
+}
+
+// Boutons de démonstration
+function sendPi() {
+    alert("Fonction Envoyer (Testnet)");
+}
+
+function receivePi() {
+    alert("Fonction Recevoir (Testnet)");
+}
+
+function buyPi() {
+    alert("Mode Acheter (Crypto ↔ Fiat)\nVersion Test");
+}
+
+function sellPi() {
+    alert("Mode Vendre (Fiat ↔ Crypto)\nVersion Test");
+}
+
+function swapPi() {
+    alert("Swap Pi\nVersion Test");
+}
+
+// Initialisation de l'interface
+document.addEventListener("DOMContentLoaded", () => {
+
+    updateBalance();
+
+    document.getElementById("refreshBtn")?.addEventListener("click", updateBalance);
+
+    document.getElementById("sendBtn")?.addEventListener("click", sendPi);
+
+    document.getElementById("receiveBtn")?.addEventListener("click", receivePi);
+
+    document.getElementById("buyBtn")?.addEventListener("click", buyPi);
+
+    document.getElementById("sellBtn")?.addEventListener("click", sellPi);
+
+    document.getElementById("swapBtn")?.addEventListener("click", swapPi);
+
+    console.log("SOCOETRAP Wallet Test
