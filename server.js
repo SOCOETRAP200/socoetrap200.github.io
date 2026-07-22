@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
@@ -10,15 +9,18 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
+// Accueil
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    app: "SOCOETRAP Wallet",
+    app: "SOCOETRAP",
+    network: "Pi Testnet",
     status: "Online",
-    environment: "Pi Testnet"
+    version: "1.0.0"
   });
 });
 
+// Vérification de santé
 app.get("/health", (req, res) => {
   res.json({
     success: true,
@@ -26,7 +28,7 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Route de test
+// Préparation d'un paiement (placeholder)
 app.post("/create-payment", async (req, res) => {
   try {
     const { amount, memo, metadata } = req.body;
@@ -44,17 +46,29 @@ app.post("/create-payment", async (req, res) => {
         amount,
         memo,
         metadata: metadata || {},
-        network: "Pi Testnet"
+        environment: "Pi Testnet"
       }
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message
     });
+
   }
 });
 
+// Route de test
+app.get("/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "SOCOETRAP Backend fonctionne correctement."
+  });
+});
+
+// Démarrage
 app.listen(PORT, () => {
   console.log(`SOCOETRAP Backend démarré sur le port ${PORT}`);
 });
